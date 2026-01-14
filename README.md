@@ -277,18 +277,6 @@ Use this to optimize your design!
 - ✅ Image conversion
 - ✅ Professional UI
 
-### v2.1 (Coming Soon)
-- 🔄 Custom font support
-- 🔄 Animation generation
-- 🔄 Real-time preview
-- 🔄 GitHub integration
-
-### v2.2 (Planned)
-- 📋 Component library
-- 📋 Templates
-- 📋 Collaborative features
-- 📋 OTA update support
-
 ## 📄 License
 
 **Cardputer Pro - Commercial License**
@@ -305,19 +293,6 @@ You may NOT:
 - ❌ Create derivative plugins
 
 ## 🤝 Support
-
-### Documentation
-Full documentation available at: [docs link]
-
-### Community
-Join our community for:
-- Tips and tricks
-- Example projects
-- Feature requests
-- Bug reports
-
-### Direct Support
-Commercial users receive priority support via email.
 
 ## 🎓 Examples
 
