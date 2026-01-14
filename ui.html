@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #ffffff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 16px 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    
+    .header p {
+      font-size: 11px;
+      opacity: 0.9;
+    }
+    
+    /* Tabs */
+    .tabs {
+      display: flex;
+      background: #f8f8f8;
+      border-bottom: 1px solid #e0e0e0;
+      padding: 0 12px;
+    }
+    
+    .tab {
+      padding: 12px 20px;
+      cursor: pointer;
+      border: none;
+      background: none;
+      font-size: 13px;
+      font-weight: 500;
+      color: #666;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+      position: relative;
+    }
+    
+    .tab:hover {
+      color: #333;
+      background: #f0f0f0;
+    }
+    
+    .tab.active {
+      color: #667eea;
+      border-bottom-color: #667eea;
+      background: white;
+    }
+    
+    .tab .badge {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      background: #667eea;
+      color: white;
+      font-size: 9px;
+      padding: 2px 5px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+    
+    /* Content */
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    /* Cards */
+    .card {
+      background: white;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    
+    .card h3 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #333;
+    }
+    
+    .card p {
+      font-size: 12px;
+      color: #666;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+    
+    /* Info boxes */
+    .info-box {
+      background: #f0f7ff;
+      border-left: 3px solid #667eea;
+      padding: 12px;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: #333;
+      line-height: 1.5;
+      border-radius: 4px;
+    }
+    
+    .info-box strong {
+      color: #667eea;
+    }
+    
+    .warning {
+      background: #fff3cd;
+      border-left: 3px solid #ffc107;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      font-size: 11px;
+      color: #856404;
+      display: none;
+      border-radius: 4px;
+    }
+    
+    .error {
+      background: #f8d7da;
+      border-left: 3px solid #dc3545;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      font-size: 11px;
+      color: #721c24;
+      display: none;
+      border-radius: 4px;
+    }
+    
+    .success {
+      background: #d4edda;
+      border-left: 3px solid #28a745;
+      padding: 10px 12px;
+      margin-bottom: 16px;
+      font-size: 11px;
+      color: #155724;
+      display: none;
+      border-radius: 4px;
+    }
+    
+    /* Buttons */
+    button {
+      padding: 10px 16px;
+      font-size: 13px;
+      font-weight: 500;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+      width: 100%;
+      margin-bottom: 8px;
+    }
+    
+    .primary-button {
+      background: #667eea;
+      color: white;
+    }
+    
+    .primary-button:hover {
+      background: #5568d3;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    .secondary-button {
+      background: #f0f0f0;
+      color: #333;
+    }
+    
+    .secondary-button:hover {
+      background: #e0e0e0;
+    }
+    
+    .success-button {
+      background: #28a745;
+      color: white;
+    }
+    
+    .success-button:hover {
+      background: #218838;
+    }
+    
+    .danger-button {
+      background: #dc3545;
+      color: white;
+    }
+    
+    /* Checkbox & Options */
+    .option {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .option:last-child {
+      border-bottom: none;
+    }
+    
+    .option input[type="checkbox"] {
+      margin-right: 10px;
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    
+    .option label {
+      flex: 1;
+      font-size: 13px;
+      color: #333;
+      cursor: pointer;
+    }
+    
+    .option-desc {
+      font-size: 11px;
+      color: #999;
+      margin-left: 26px;
+      margin-top: 4px;
+    }
+    
+    /* Select dropdown */
+    select {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 13px;
+      margin-bottom: 12px;
+      background: white;
+    }
+    
+    /* Code preview */
+    textarea {
+      width: 100%;
+      height: 200px;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: 11px;
+      line-height: 1.5;
+      resize: vertical;
+      margin-bottom: 8px;
+      background: #f8f8f8;
+    }
+    
+    /* Stats */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    
+    .stat-value {
+      font-size: 24px;
+      font-weight: 700;
+      display: block;
+    }
+    
+    .stat-label {
+      font-size: 10px;
+      opacity: 0.9;
+      display: block;
+      margin-top: 4px;
+    }
+    
+    /* Screen list */
+    .screen-list {
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #e0e0e0;
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+    
+    .screen-item {
+      padding: 10px 12px;
+      border-bottom: 1px solid #f0f0f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+    }
+    
+    .screen-item:last-child {
+      border-bottom: none;
+    }
+    
+    .screen-item:hover {
+      background: #f8f8f8;
+    }
+    
+    .screen-name {
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .screen-size {
+      color: #999;
+      font-size: 11px;
+    }
+    
+    /* Progress bar */
+    .progress {
+      width: 100%;
+      height: 8px;
+      background: #e0e0e0;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 12px;
+      display: none;
+    }
+    
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+      transition: width 0.3s;
+      width: 0%;
+    }
+    
+    /* Footer */
+    .footer {
+      padding: 12px 16px;
+      border-top: 1px solid #e0e0e0;
+      background: #f8f8f8;
+      font-size: 10px;
+      color: #999;
+      text-align: center;
+    }
+    
+    .loader {
+      border: 2px solid #f3f3f3;
+      border-top: 2px solid #667eea;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      animation: spin 1s linear infinite;
+      display: inline-block;
+      margin-left: 8px;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🚀 Cardputer Pro</h1>
+    <p>Professional Figma to Arduino Export</p>
+  </div>
+  
+  <div class="tabs">
+    <button class="tab active" data-tab="export">Export</button>
+    <button class="tab" data-tab="settings">Settings</button>
+    <button class="tab" data-tab="preview">Preview</button>
+    <button class="tab" data-tab="about">About</button>
+  </div>
+  
+  <div class="content">
+    <!-- Export Tab -->
+    <div class="tab-content active" id="export-tab">
+      <div class="warning" id="warning"></div>
+      <div class="error" id="error"></div>
+      <div class="success" id="success"></div>
+      
+      <div class="stats" id="stats" style="display:none;">
+        <div class="stat-card">
+          <span class="stat-value" id="screen-count">0</span>
+          <span class="stat-label">Screens</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="component-count">0</span>
+          <span class="stat-label">Components</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-value" id="code-size">0</span>
+          <span class="stat-label">KB</span>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>📱 Export Mode</h3>
+        <p>Choose how to export your design</p>
+        <select id="export-mode">
+          <option value="single">Single Screen</option>
+          <option value="multi">Multi-Screen Navigation</option>
+          <option value="project">Complete Project</option>
+        </select>
+      </div>
+      
+      <div class="card">
+        <h3>⚙️ Export Options</h3>
+        <div class="option">
+          <input type="checkbox" id="opt-images" checked>
+          <label for="opt-images">Convert Images to Byte Arrays</label>
+        </div>
+        <div class="option-desc">Automatically convert PNG/JPG to C++ arrays</div>
+        
+        <div class="option">
+          <input type="checkbox" id="opt-components" checked>
+          <label for="opt-components">Smart Component Detection</label>
+        </div>
+        <div class="option-desc">Auto-detect buttons, menus, and interactive elements</div>
+        
+        <div class="option">
+          <input type="checkbox" id="opt-variables" checked>
+          <label for="opt-variables">Export Figma Variables</label>
+        </div>
+        <div class="option-desc">Convert design tokens to #define constants</div>
+        
+        <div class="option">
+          <input type="checkbox" id="opt-optimize">
+          <label for="opt-optimize">Optimize for Memory</label>
+        </div>
+        <div class="option-desc">Reduce code size and memory usage</div>
+      </div>
+      
+      <div class="progress" id="progress">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+      
+      <button class="primary-button" id="export-btn">
+        🚀 Export to Arduino
+      </button>
+      
+      <div class="card hidden" id="code-preview">
+        <h3>📝 Generated Code</h3>
+        <textarea id="code-output" readonly></textarea>
+        <button class="success-button" id="copy-btn">📋 Copy Code</button>
+        <button class="secondary-button" id="download-btn">💾 Download .ino</button>
+        <button class="secondary-button" id="download-project-btn">📦 Download PlatformIO Project</button>
+      </div>
+    </div>
+    
+    <!-- Settings Tab -->
+    <div class="tab-content" id="settings-tab">
+      <div class="card">
+        <h3>🎨 Display Settings</h3>
+        <p>Cardputer display configuration</p>
+        <label style="font-size: 12px; display: block; margin-bottom: 4px;">Screen Width</label>
+        <input type="number" id="screen-width" value="240" style="width: 100%; padding: 8px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 6px;">
+        <label style="font-size: 12px; display: block; margin-bottom: 4px;">Screen Height</label>
+        <input type="number" id="screen-height" value="135" style="width: 100%; padding: 8px; margin-bottom: 12px; border: 1px solid #ccc; border-radius: 6px;">
+      </div>
+      
+      <div class="card">
+        <h3>🔧 Code Generation</h3>
+        <div class="option">
+          <input type="checkbox" id="set-comments" checked>
+          <label for="set-comments">Include Comments</label>
+        </div>
+        <div class="option">
+          <input type="checkbox" id="set-debug" checked>
+          <label for="set-debug">Debug Serial Output</label>
+        </div>
+        <div class="option">
+          <input type="checkbox" id="set-animations">
+          <label for="set-animations">Generate Animation Code</label>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>📦 Project Structure</h3>
+        <select id="project-structure">
+          <option value="single">Single File (.ino)</option>
+          <option value="modular">Modular (Multiple Files)</option>
+          <option value="platformio">PlatformIO Project</option>
+        </select>
+      </div>
+      
+      <button class="secondary-button" id="reset-settings">Reset to Defaults</button>
+    </div>
+    
+    <!-- Preview Tab -->
+    <div class="tab-content" id="preview-tab">
+      <div class="info-box">
+        <strong>🎬 Live Preview</strong><br>
+        See your design rendered on a virtual Cardputer
+      </div>
+      
+      <!-- Cardputer Simulator -->
+      <div class="card" style="background: #1a1a1a; padding: 24px; text-align: center;">
+        <h3 style="color: white; margin-bottom: 16px;">Cardputer Simulator</h3>
+        
+        <!-- Device Mockup -->
+        <div style="display: inline-block; background: #2a2a2a; border-radius: 12px; padding: 16px; box-shadow: 0 8px 24px rgba(0,0,0,0.4);">
+          <!-- Screen -->
+          <div style="background: #000; border-radius: 4px; padding: 8px; margin-bottom: 12px; box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);">
+            <canvas id="simulator-canvas" width="240" height="135" style="display: block; border: 1px solid #333; image-rendering: pixelated;"></canvas>
+          </div>
+          
+          <!-- Keyboard -->
+          <div style="background: #3a3a3a; border-radius: 4px; padding: 8px; display: grid; grid-template-columns: repeat(10, 1fr); gap: 2px;">
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="Q"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="W"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="E"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="R"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="T"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="Y"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="U"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="I"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="O"></div>
+            <div style="background: #555; height: 8px; border-radius: 2px;" title="P"></div>
+          </div>
+          
+          <!-- Status -->
+          <div id="simulator-status" style="margin-top: 12px; color: #999; font-size: 11px;">
+            Click "Load Preview" to see your design
+          </div>
+        </div>
+        
+        <button class="secondary-button" id="load-preview-btn" style="margin-top: 16px; background: #667eea; color: white;">
+          📸 Load Preview
+        </button>
+      </div>
+      
+      <div id="screen-list-container" class="card">
+        <h3>📱 Detected Screens</h3>
+        <div class="screen-list" id="screen-list">
+          <div style="padding: 20px; text-align: center; color: #999; font-size: 12px;">
+            Select frames to see them listed here
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>🔍 Component Analysis</h3>
+        <div id="component-analysis" style="font-size: 12px; color: #666;">
+          <p style="text-align: center; padding: 20px; color: #999;">
+            Export to see component breakdown
+          </p>
+        </div>
+      </div>
+      
+      <button class="secondary-button" id="refresh-preview">🔄 Refresh Preview</button>
+    </div>
+    
+    <!-- About Tab -->
+    <div class="tab-content" id="about-tab">
+      <div class="card">
+        <h3>🚀 Cardputer Pro</h3>
+        <p><strong>Version:</strong> 2.0.0 Commercial</p>
+        <p><strong>License:</strong> Commercial Use Allowed</p>
+        <p style="margin-top: 12px;">
+          Professional-grade plugin for exporting Figma designs to M5Stack Cardputer Arduino code.
+        </p>
+      </div>
+      
+      <div class="card">
+        <h3>✨ Features</h3>
+        <ul style="font-size: 12px; color: #666; line-height: 2; list-style: none; padding-left: 0;">
+          <li>✅ Multi-screen navigation system</li>
+          <li>✅ Smart component detection</li>
+          <li>✅ Image to byte array conversion</li>
+          <li>✅ Figma variables support</li>
+          <li>✅ Memory optimization</li>
+          <li>✅ PlatformIO project generation</li>
+          <li>✅ Live preview</li>
+          <li>✅ Custom font support</li>
+        </ul>
+      </div>
+      
+      <div class="card">
+        <h3>📚 Documentation</h3>
+        <p>Visit our documentation for tutorials, examples, and best practices.</p>
+        <button class="secondary-button">📖 Open Docs</button>
+      </div>
+      
+      <div class="card">
+        <h3>💬 Support</h3>
+        <p>Need help? Contact us or join our community.</p>
+        <button class="secondary-button">💌 Contact Support</button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="footer">
+    Cardputer Pro Plugin v2.0 © 2025
+  </div>
+
+  <script>
+    // UI Controller for Cardputer Pro Plugin
+
+    let currentScreenName = 'Screen';
+    let generatedCode = '';
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        // Remove active from all tabs
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        
+        // Add active to clicked tab
+        tab.classList.add('active');
+        const tabId = tab.getAttribute('data-tab') + '-tab';
+        document.getElementById(tabId).classList.add('active');
+      });
+    });
+
+    // Export button
+    document.getElementById('export-btn').addEventListener('click', () => {
+      const mode = document.getElementById('export-mode').value;
+      const options = {
+        images: document.getElementById('opt-images').checked,
+        components: document.getElementById('opt-components').checked,
+        variables: document.getElementById('opt-variables').checked,
+        optimize: document.getElementById('opt-optimize').checked,
+        comments: document.getElementById('set-comments').checked,
+        debug: document.getElementById('set-debug').checked,
+        animations: document.getElementById('set-animations').checked,
+        screenWidth: parseInt(document.getElementById('screen-width').value),
+        screenHeight: parseInt(document.getElementById('screen-height').value)
+      };
+      
+      hideMessages();
+      showProgress();
+      
+      parent.postMessage({ 
+        pluginMessage: { 
+          type: 'export',
+          mode: mode,
+          options: options
+        } 
+      }, '*');
+    });
+
+    // Copy button
+    document.getElementById('copy-btn').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(document.getElementById('code-output').value);
+        showSuccess('Code copied to clipboard!');
+        document.getElementById('copy-btn').textContent = '✅ Copied!';
+        setTimeout(() => {
+          document.getElementById('copy-btn').textContent = '📋 Copy Code';
+        }, 2000);
+      } catch (err) {
+        showError('Failed to copy. Use Ctrl+C manually.');
+      }
+    });
+
+    // Download .ino button
+    document.getElementById('download-btn').addEventListener('click', () => {
+      const blob = new Blob([document.getElementById('code-output').value], { type: 'text/plain' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${currentScreenName.replace(/[^a-zA-Z0-9]/g, '_')}.ino`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showSuccess('File downloaded!');
+    });
+
+    // Download PlatformIO project
+    document.getElementById('download-project-btn').addEventListener('click', () => {
+      parent.postMessage({ 
+        pluginMessage: { 
+          type: 'download-project'
+        } 
+      }, '*');
+    });
+
+    // Refresh preview
+    document.getElementById('refresh-preview').addEventListener('click', () => {
+      parent.postMessage({ 
+        pluginMessage: { 
+          type: 'refresh-preview'
+        } 
+      }, '*');
+    });
+
+    // Load preview in simulator
+    document.getElementById('load-preview-btn').addEventListener('click', () => {
+      document.getElementById('simulator-status').textContent = 'Loading preview...';
+      document.getElementById('simulator-status').style.color = '#667eea';
+      
+      parent.postMessage({ 
+        pluginMessage: { 
+          type: 'load-preview'
+        } 
+      }, '*');
+    });
+
+    // Draw image on canvas simulator
+    function drawPreviewOnCanvas(imageData) {
+      const canvas = document.getElementById('simulator-canvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Clear canvas
+      ctx.fillStyle = '#000000';
+      ctx.fillRect(0, 0, 240, 135);
+      
+      // Create image from data
+      const img = new Image();
+      img.onload = function() {
+        // Draw image scaled to fit canvas
+        ctx.drawImage(img, 0, 0, 240, 135);
+        document.getElementById('simulator-status').textContent = '✅ Preview loaded successfully';
+        document.getElementById('simulator-status').style.color = '#28a745';
+      };
+      img.onerror = function() {
+        document.getElementById('simulator-status').textContent = '❌ Failed to load preview';
+        document.getElementById('simulator-status').style.color = '#dc3545';
+      };
+      img.src = imageData;
+    }
+
+    // Reset settings
+    document.getElementById('reset-settings').addEventListener('click', () => {
+      document.getElementById('screen-width').value = '240';
+      document.getElementById('screen-height').value = '135';
+      document.getElementById('set-comments').checked = true;
+      document.getElementById('set-debug').checked = true;
+      document.getElementById('set-animations').checked = false;
+      document.getElementById('project-structure').value = 'single';
+      showSuccess('Settings reset to defaults');
+    });
+
+    // Message handlers
+    function showProgress() {
+      document.getElementById('progress').style.display = 'block';
+      let width = 0;
+      const interval = setInterval(() => {
+        width += 10;
+        document.getElementById('progress-bar').style.width = width + '%';
+        if (width >= 90) {
+          clearInterval(interval);
+        }
+      }, 100);
+    }
+
+    function hideProgress() {
+      document.getElementById('progress').style.display = 'none';
+      document.getElementById('progress-bar').style.width = '0%';
+    }
+
+    function showWarning(message) {
+      const warning = document.getElementById('warning');
+      warning.textContent = '⚠️ ' + message;
+      warning.style.display = 'block';
+    }
+
+    function showError(message) {
+      const error = document.getElementById('error');
+      error.textContent = '❌ ' + message;
+      error.style.display = 'block';
+      hideProgress();
+    }
+
+    function showSuccess(message) {
+      const success = document.getElementById('success');
+      success.textContent = '✅ ' + message;
+      success.style.display = 'block';
+      setTimeout(() => {
+        success.style.display = 'none';
+      }, 3000);
+    }
+
+    function hideMessages() {
+      document.getElementById('warning').style.display = 'none';
+      document.getElementById('error').style.display = 'none';
+      document.getElementById('success').style.display = 'none';
+    }
+
+    // Listen for messages from plugin
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      
+      if (msg.type === 'code') {
+        hideProgress();
+        document.getElementById('progress-bar').style.width = '100%';
+        
+        generatedCode = msg.code;
+        currentScreenName = msg.screenName;
+        
+        document.getElementById('code-output').value = msg.code;
+        document.getElementById('code-preview').classList.remove('hidden');
+        
+        // Update stats
+        if (msg.stats) {
+          document.getElementById('stats').style.display = 'grid';
+          document.getElementById('screen-count').textContent = msg.stats.screens || 1;
+          document.getElementById('component-count').textContent = msg.stats.components || 0;
+          document.getElementById('code-size').textContent = (msg.code.length / 1024).toFixed(1);
+        }
+        
+        showSuccess('Code generated successfully!');
+        
+        setTimeout(hideProgress, 500);
+      }
+      
+      if (msg.type === 'warning') {
+        showWarning(msg.message);
+      }
+      
+      if (msg.type === 'error') {
+        showError(msg.message);
+      }
+      
+      if (msg.type === 'screens') {
+        updateScreenList(msg.screens);
+      }
+      
+      if (msg.type === 'components') {
+        updateComponentAnalysis(msg.components);
+      }
+      
+      if (msg.type === 'preview') {
+        drawPreviewOnCanvas(msg.imageData);
+      }
+    };
+
+    function updateScreenList(screens) {
+      const list = document.getElementById('screen-list');
+      if (screens.length === 0) {
+        list.innerHTML = '<div style="padding: 20px; text-align: center; color: #999; font-size: 12px;">No screens detected</div>';
+        return;
+      }
+      
+      list.innerHTML = '';
+      screens.forEach(screen => {
+        const item = document.createElement('div');
+        item.className = 'screen-item';
+        item.innerHTML = `
+          <span class="screen-name">${screen.name}</span>
+          <span class="screen-size">${screen.width}×${screen.height}</span>
+        `;
+        list.appendChild(item);
+      });
+    }
+
+    function updateComponentAnalysis(components) {
+      const container = document.getElementById('component-analysis');
+      if (!components || components.length === 0) {
+        container.innerHTML = '<p style="text-align: center; padding: 20px; color: #999;">No components detected</p>';
+        return;
+      }
+      
+      container.innerHTML = '';
+      const counts = {};
+      components.forEach(comp => {
+        counts[comp.type] = (counts[comp.type] || 0) + 1;
+      });
+      
+      for (const [type, count] of Object.entries(counts)) {
+        const item = document.createElement('div');
+        item.style.padding = '8px 0';
+        item.style.borderBottom = '1px solid #f0f0f0';
+        item.innerHTML = `
+          <strong>${type}:</strong> ${count}
+        `;
+        container.appendChild(item);
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,43 @@
+{
+  "name": "cardputer-pro-plugin",
+  "version": "2.0.0",
+  "description": "Professional Figma to Arduino export plugin for M5Stack Cardputer - Commercial Edition",
+  "main": "code.js",
+  "scripts": {
+    "build": "echo 'No build step needed - JavaScript is ready'",
+    "test": "echo 'Tests coming soon'"
+  },
+  "keywords": [
+    "figma",
+    "plugin",
+    "cardputer",
+    "m5stack",
+    "arduino",
+    "embedded",
+    "iot",
+    "ui-export",
+    "commercial",
+    "professional"
+  ],
+  "author": "Cardputer Pro Team",
+  "license": "Commercial",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/cardputer-pro-plugin"
+  },
+  "figma": {
+    "name": "Cardputer Pro",
+    "version": "2.0.0",
+    "api": "1.0.0",
+    "features": [
+      "multi-screen-navigation",
+      "smart-component-detection",
+      "image-conversion",
+      "memory-optimization",
+      "live-preview",
+      "professional-ui"
+    ]
+  },
+  "devDependencies": {},
+  "dependencies": {}
+}
