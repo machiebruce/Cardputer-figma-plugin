@@ -1,4 +1,4 @@
-# 🚀 Cardputer Pro - Commercial Plugin
+# 🚀 Cardputer Pro
 
 Professional-grade Figma to Arduino export plugin for M5Stack Cardputer.
 
